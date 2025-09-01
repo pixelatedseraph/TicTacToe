@@ -4,25 +4,24 @@
 /* 3. if neither of those two conditions are met then game isn't finished yet */
 package TicTacToe;
 public class GameCore {
-    public static String gameStatus(){
-        if (DrawBoard.board[0].equals(DrawBoard.board[1]) && DrawBoard.board[1].equals(DrawBoard.board[2]) && !(DrawBoard.board[0].equals("-")) ||   /* row wise */
-                DrawBoard.board[3].equals(DrawBoard.board[4]) && DrawBoard.board[4].equals(DrawBoard.board[5]) && !(DrawBoard.board[3].equals("-")) ||
-                DrawBoard.board[6].equals(DrawBoard.board[7]) && DrawBoard.board[7].equals(DrawBoard.board[8]) && !(DrawBoard.board[6].equals("-")) ||
-                /* col wise */
-                DrawBoard.board[0].equals(DrawBoard.board[3]) && DrawBoard.board[3].equals(DrawBoard.board[6]) && !(DrawBoard.board[0].equals("-")) ||
-                DrawBoard.board[1].equals(DrawBoard.board[4]) && DrawBoard.board[4].equals(DrawBoard.board[7]) && !(DrawBoard.board[1].equals("-")) ||
-                DrawBoard.board[2].equals(DrawBoard.board[5]) && DrawBoard.board[8].equals(DrawBoard.board[2]) && !(DrawBoard.board[2].equals("-")) ||
-                /* diagonal wise */
-                DrawBoard.board[0].equals(DrawBoard.board[4]) && DrawBoard.board[4].equals(DrawBoard.board[8]) && !(DrawBoard.board[0].equals("-")) ||
-                DrawBoard.board[2].equals(DrawBoard.board[4]) && DrawBoard.board[4].equals(DrawBoard.board[6]) && !(DrawBoard.board[0].equals("-")) ) {
-            return "win";
-        }
-        /* check for a tie */
-        else if(!String.join("", DrawBoard.board).contains("-")){
-            return "draw";
-        }
-        else {
-            return "play";
-        }
+    /* enum to store all game outcomes */
+    public enum status {WIN, DRAW, CONT};
+
+    /* a method to check whether someone won */
+    private static Boolean WinCheck(int a, int b, int c, String[] board) {
+        return (DrawBoard.board[a].equals(DrawBoard.board[b]) && DrawBoard.board[b].equals(DrawBoard.board[c]) && !(DrawBoard.board[a].equals("-")));
     }
+
+    public static status gameStatus() {
+        /* now check if someone won in row wise */
+        for (int i = 0; i < 9 ; i+=3){
+            if(WinCheck(i,i+1,i+2,DrawBoard.board)) return status.WIN;
+    }
+        /* do the same for column wise */
+        for (int i = 0 ; i < 3 ; ++i){
+            if(WinCheck(i,i+3,i+6,DrawBoard.board)) return status.WIN;
+        }
+        /* now for diagonal wise */
+        if (WinCheck(0,4,8,DrawBoard.board) || WinCheck(2,4,6,DrawBoard.board)) return status.WIN;
+}
 }
