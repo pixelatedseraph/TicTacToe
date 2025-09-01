@@ -4,19 +4,25 @@ public class Main {
     public static void main(String[] args) {
         DrawBoard.Draw();
         String Player = "X";
-        Boolean cont = true;
-        while (cont) {
+        Boolean run = true;
+        while (run) {
             PlayerInp.PlayerTurn(Player);
-            String stat = GameCore.gameStatus();
-            if (stat.equals("win")) {
-                System.out.println("Player Won!");
-                cont = false;
-            } else if (stat.equals("draw")) {
-                System.out.println("Match Draw!");
-                cont = false;
+            GameCore.Status stat = GameCore.gameStatus();
+            switch (stat){
+                case WIN -> {
+                    System.out.println("Player "+Player+" Won!");
+                    run = false;
+                }
+                case DRAW -> {
+                    System.out.println("Match Draw"); run = false;
+                }
+                case CONT -> {
+                    run = true;
+                }
             }
-            else {
-                cont = true;
+            /* switch player if continue */
+            if (stat==GameCore.Status.CONT){
+                Player = Player.equals("X") ? "O" : "X";
             }
         }
     }
