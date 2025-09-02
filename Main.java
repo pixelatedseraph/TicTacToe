@@ -4,9 +4,13 @@ public class Main {
     public static void main(String[] args) {
         DrawBoard.Draw();
         String Player = "X";
-        Boolean run = true;
+        boolean run = true;
         while (run) {
+            if (Player.equals("X")){
             PlayerInp.PlayerTurn(Player);
+            }else {
+                PlayerInp.ComputerTurn(Player);
+            }
             GameCore.Status stat = GameCore.gameStatus();
             switch (stat){
                 case WIN -> {

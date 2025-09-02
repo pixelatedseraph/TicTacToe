@@ -5,23 +5,30 @@
 package TicTacToe;
 public class GameCore {
     /* enum to store all game outcomes */
-    public enum status {WIN, DRAW, CONT};
+    public enum Status {WIN, DRAW, CONT};
 
     /* a method to check whether someone won */
     private static Boolean WinCheck(int a, int b, int c, String[] board) {
         return (DrawBoard.board[a].equals(DrawBoard.board[b]) && DrawBoard.board[b].equals(DrawBoard.board[c]) && !(DrawBoard.board[a].equals("-")));
     }
 
-    public static status gameStatus() {
+    public static Status gameStatus() {
         /* now check if someone won in row wise */
         for (int i = 0; i < 9 ; i+=3){
-            if(WinCheck(i,i+1,i+2,DrawBoard.board)) return status.WIN;
+            if(WinCheck(i,i+1,i+2,DrawBoard.board)) return Status.WIN;
     }
         /* do the same for column wise */
         for (int i = 0 ; i < 3 ; ++i){
-            if(WinCheck(i,i+3,i+6,DrawBoard.board)) return status.WIN;
+            if(WinCheck(i,i+3,i+6,DrawBoard.board)) return Status.WIN;
         }
         /* now for diagonal wise */
-        if (WinCheck(0,4,8,DrawBoard.board) || WinCheck(2,4,6,DrawBoard.board)) return status.WIN;
+        if (WinCheck(0,4,8,DrawBoard.board) || WinCheck(2,4,6,DrawBoard.board)) return Status.WIN;
+
+        /* handle if game shall continue */
+        for (int i = 0 ; i < 9 ; ++i){
+            if(DrawBoard.board[i].equals("-")) return Status.CONT;
+        }
+        /* handle if game draws */
+        return Status.DRAW;
 }
 }
